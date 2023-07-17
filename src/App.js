@@ -15,6 +15,11 @@ function App() {
     setUsers([...users, user]);
   };
 
+  const deleteUser = (id) => {
+    // 用 filter 過濾掉當前的 id
+    setUsers(users.filter((user) => user.id !== id));
+  }
+
   return (
     <div className="App">
       <h1>React CRUD</h1>
@@ -26,7 +31,8 @@ function App() {
 
         <div>
           <h2>View Users</h2>
-          <UserTable users={users} />
+          {/* 把刪除功能當作 props 傳給 UserTable */}
+          <UserTable users={users} deleteUser={deleteUser} />
         </div>
       </div>
     </div>
@@ -54,7 +60,8 @@ const UserTable = (props) => {
                 <button>
                   Edit
                 </button>
-                <button>
+                <button onClick={() => props.deleteUser(user.id)}>
+                  {/* UserTable 中的 Delete 按鈕綁定 onClick */}
                   Delete
                 </button>
               </td>
