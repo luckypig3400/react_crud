@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function App() {
   const usersData = [
@@ -9,6 +9,8 @@ function App() {
   ];
 
   const [users, setUsers] = useState(usersData);
+  const [editing, setEditing] = useState(false);
+  const [currentUser, setCurrentUser] = useState({ id: null, name: "", username: "" });
 
   const addUser = (user) => {
     user.id = users.length + 1;
@@ -16,53 +18,54 @@ function App() {
   };
 
   const deleteUser = (id) => {
-    // 用 filter 過濾掉當前的 id
     setUsers(users.filter((user) => user.id !== id));
-  }
+  };
 
-  const [editing, setEditing] = useState(false);
-  const initialFormState = { id: null, name: "", username: "" };
-  const [currentUser, setCurrentUser] = useState(initialFormState);
   const editRow = (user) => {
     setEditing(true);
-    setCurrentUser({
-      id: user.id,
-      name: user.name,
-      username: user.username
-    });
-  }
-  const updateUser = (id, updateUser) => {
+    setCurrentUser(user);
+  };
+
+  const updateUser = (id, updatedUser) => {
     setEditing(false);
-    setUsers(users.map((user) => (user.id === id ? updateUser : user)));
-  }
+    setUsers(users.map((user) => (user.id === id ? updatedUser : user)));
+  };
 
   return (
     <div className="App">
-      <h1>React CRUD</h1>
+      <h1>React CRUD!</h1>
       <div>
-        <div>
-          <h2>Add User</h2>
-          <AddUserForm addUser={addUser} />
-        </div>
-
-        <div>
-          <h2>View Users</h2>
-          {/* 把刪除功能當作 props 傳給 UserTable */}
-          <UserTable
-            users={users}
-            deleteUser={deleteUser}
-            editRow={editRow}
-          />
-        </div>
+        {editing ? (
+          <div>
+            <h2>Edit user</h2>
+            <EditUserForm
+              setEditing={setEditing}
+              currentUser={currentUser}
+              updateUser={updateUser}
+            />
+          </div>
+        ) : (
+          <div>
+            <h2>Add user</h2>
+            <AddUserForm addUser={addUser} />
+          </div>
+        )}
+      </div>
+      <div>
+        <h2>View users</h2>
+        <UserTable
+          users={users}
+          deleteUser={deleteUser}
+          editRow={editRow}
+        />
       </div>
     </div>
   );
 }
 
 const UserTable = (props) => {
-  console.log("props.users.length:" + props.users.length);
   return (
-    <table>
+    <table className="tableStyle">
       <thead>
         <tr>
           <th>Name</th>
@@ -77,44 +80,83 @@ const UserTable = (props) => {
               <td>{user.name}</td>
               <td>{user.username}</td>
               <td>
-                <button>
-                  Edit
-                </button>
-                <button onClick={() => props.deleteUser(user.id)}>
-                  {/* UserTable 中的 Delete 按鈕綁定 onClick */}
-                  Delete
-                </button>
+                <button onClick={() => props.editRow(user)}>Edit</button>
+                <button onClick={() => props.deleteUser(user.id)}>Delete</button>
               </td>
             </tr>
           ))
         ) : (
           <tr>
-            <td colSpan={3}>No Users</td>
+            <td colSpan={3}>No users</td>
           </tr>
         )}
       </tbody>
     </table>
-  )
-}
+  );
+};
 
 const AddUserForm = (props) => {
-  const initialFormState = { id: null, name: '', username: '' }
-  const [user, setUser] = useState(initialFormState)
+  const initialFormState = { id: null, name: "", username: "" };
+  const [user, setUser] = useState(initialFormState);
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target
-    setUser({ ...user, [name]: value })
-  }
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!user.name || !user.username) return;
+    props.addUser(user);
+    setUser(initialFormState);
+  };
 
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        if (!user.name || !user.username) return;
-        props.addUser(user);
-        setUser(initialFormState);
-      }}
-    >
+    <form onSubmit={handleSubmit}>
+      <label>Name</label>
+      <input
+        autoComplete="off"
+        type="text"
+        name="name"
+        value={user.name}
+        onChange={handleInputChange}
+      />
+      <label>Username</label>
+      <input
+        autoComplete="off"
+        type="text"
+        name="username"
+        value={user.username}
+        onChange={handleInputChange}
+      />
+      <button>Add new user</button>
+    </form>
+  );
+};
+
+const EditUserForm = (props) => {
+  const [user, setUser] = useState(props.currentUser);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  useEffect(() => {
+    setUser(props.currentUser);
+  }, [props.currentUser]);
+
+  const handleCancel = () => {
+    props.setEditing(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    props.updateUser(user.id, user);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
       <label>Name</label>
       <input
         type="text"
@@ -129,7 +171,10 @@ const AddUserForm = (props) => {
         value={user.username}
         onChange={handleInputChange}
       />
-      <button>Add new user</button>
+      <button>Update user</button>
+      <button onClick={handleCancel} className="button muted-button">
+        Cancel
+      </button>
     </form>
   );
 };
