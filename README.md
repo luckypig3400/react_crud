@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## References
++ https://molly1024.medium.com/react-一個-crud-增改刪查專案-9874b452ae36
+
 ## Available Scripts
 
 In the project directory, you can run:
