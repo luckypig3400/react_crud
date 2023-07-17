@@ -10,12 +10,18 @@ function App() {
 
   const [users, setUsers] = useState(usersData);
 
+  const addUser = (user) => {
+    user.id = users.length + 1;
+    setUsers([...users, user]);
+  };
+
   return (
     <div className="App">
       <h1>React CRUD</h1>
       <div>
         <div>
           <h2>Add User</h2>
+          <AddUserForm addUser={addUser} />
         </div>
 
         <div>
@@ -63,5 +69,17 @@ const UserTable = (props) => {
     </table>
   )
 }
+
+const AddUserForm = (props) => {
+  return (
+    <form>
+      <label>Name</label>
+      <input type="text" name="name" value="" />
+      <label>Username</label>
+      <input type="text" name="username" value="" />
+      <button>Add new user</button>
+    </form>
+  );
+};
 
 export default App;
