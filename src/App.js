@@ -20,6 +20,22 @@ function App() {
     setUsers(users.filter((user) => user.id !== id));
   }
 
+  const [editing, setEditing] = useState(false);
+  const initialFormState = { id: null, name: "", username: "" };
+  const [currentUser, setCurrentUser] = useState(initialFormState);
+  const editRow = (user) => {
+    setEditing(true);
+    setCurrentUser({
+      id: user.id,
+      name: user.name,
+      username: user.username
+    });
+  }
+  const updateUser = (id, updateUser) => {
+    setEditing(false);
+    setUsers(users.map((user) => (user.id === id ? updateUser : user)));
+  }
+
   return (
     <div className="App">
       <h1>React CRUD</h1>
@@ -32,7 +48,11 @@ function App() {
         <div>
           <h2>View Users</h2>
           {/* 把刪除功能當作 props 傳給 UserTable */}
-          <UserTable users={users} deleteUser={deleteUser} />
+          <UserTable
+            users={users}
+            deleteUser={deleteUser}
+            editRow={editRow}
+          />
         </div>
       </div>
     </div>
