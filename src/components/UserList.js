@@ -10,29 +10,21 @@ function UserList() {
 
   return (
     <ListGroup className='mt-4'>
-      <ListGroupItem className='d-flex'>
-        <strong>User One</strong>
-        <div style={{ marginLeft: "auto" }}>
-          <Link className='btn btn-warning' to="/edit/1">
-            Edit
-          </Link>
-          <Button color='danger' style={{ marginLeft: "10px" }}>
-            Delete
-          </Button>
-        </div>
-      </ListGroupItem>
-
-      <ListGroupItem className='d-flex'>
-        <strong>User Two</strong>
-        <div style={{ marginLeft: "auto" }}>
-          <Link className='btn btn-warning' to="/edit/1">
-            Edit
-          </Link>
-          <Button color='danger' style={{ marginLeft: "10px" }}>
-            Delete
-          </Button>
-        </div>
-      </ListGroupItem>
+      {
+        users.map((user) => (
+          <ListGroupItem className='d-flex'>
+            <strong>User One</strong>
+            <div style={{ marginLeft: "auto" }}>
+              <Link className='btn btn-warning' to="/edit/1">
+                Edit
+              </Link>
+              <Button color='danger' style={{ marginLeft: "10px" }}>
+                Delete
+              </Button>
+            </div>
+          </ListGroupItem>
+        ))
+      }
     </ListGroup>
   )
 }
