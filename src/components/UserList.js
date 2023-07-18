@@ -9,26 +9,33 @@ function UserList() {
   // console.log("users:" + JSON.stringify(users));
 
   return (
-    <ListGroup className='mt-4'>
-      {
-        users.map((user) => (
-          <ListGroupItem className='d-flex' key={user.id}>
-            <strong>{user.name}</strong>
-            <div style={{ marginLeft: "auto" }}>
-              <Link className='btn btn-warning' to={`/edit/${user.id}`}>
-                Edit
-              </Link>
-              <Button
-                color='danger'
-                style={{ marginLeft: "10px" }}
-                onClick={() => removeUser(user.id)}
-              >
-                Delete
-              </Button>
-            </div>
-          </ListGroupItem>
-        ))
-      }
+    <ListGroup className="mt-4">
+      {users.length > 0 ? (
+        <>
+          {users.map((user) => (
+            <ListGroupItem className="d-flex" key={user.id}>
+              <strong>{user.name}</strong>
+              <div style={{ marginLeft: "auto" }}>
+                <Link
+                  className="btn btn-warning"
+                  to={`/edit/${user.id}`}
+                >
+                  Edit
+                </Link>
+                <Button
+                  color="danger"
+                  style={{ marginLeft: "10px" }}
+                  onClick={() => removeUser(user.id)}
+                >
+                  Delect
+                </Button>
+              </div>
+            </ListGroupItem>
+          ))}
+        </>
+      ) : (
+        <h4>No user</h4>
+      )}
     </ListGroup>
   )
 }
