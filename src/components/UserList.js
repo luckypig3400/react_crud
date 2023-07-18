@@ -12,10 +12,10 @@ function UserList() {
     <ListGroup className='mt-4'>
       {
         users.map((user) => (
-          <ListGroupItem className='d-flex'>
-            <strong>User One</strong>
+          <ListGroupItem className='d-flex' key={user.id}>
+            <strong>{user.name}</strong>
             <div style={{ marginLeft: "auto" }}>
-              <Link className='btn btn-warning' to="/edit/1">
+              <Link className='btn btn-warning' to={`/edit/${user.id}`}>
                 Edit
               </Link>
               <Button color='danger' style={{ marginLeft: "10px" }}>
