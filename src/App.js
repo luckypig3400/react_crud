@@ -4,6 +4,7 @@ import Home from './components/Home';
 import AddUser from './components/AddUser';
 import EditUser from './components/EditUser';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { GloabalProvider } from './context/GlobalState';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // TODO: 接下來跟著文章改為進階版(拆分各個Components)
@@ -11,14 +12,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/add" element={<AddUser />} />
-          <Route path="/edit" element={<EditUser />} />
-        </Routes>
-      </Router>
+    <div style={{ maxWidth: "30rem", margin: "4rem auto", marginTop: "0rem" }}>
+      <GloabalProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/add" element={<AddUser />} />
+            <Route path="/edit" element={<EditUser />} />
+          </Routes>
+        </Router>
+      </GloabalProvider>
     </div>
   );
 }
