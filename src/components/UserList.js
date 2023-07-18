@@ -4,7 +4,7 @@ import { ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { GlobalContext } from '../context/GlobalState';
 
 function UserList() {
-  const { users } = useContext(GlobalContext);
+  const { users, removeUser } = useContext(GlobalContext);
   console.log(users);
   // console.log("users:" + JSON.stringify(users));
 
@@ -18,7 +18,11 @@ function UserList() {
               <Link className='btn btn-warning' to={`/edit/${user.id}`}>
                 Edit
               </Link>
-              <Button color='danger' style={{ marginLeft: "10px" }}>
+              <Button
+                color='danger'
+                style={{ marginLeft: "10px" }}
+                onClick={() => removeUser(user.id)}
+              >
                 Delete
               </Button>
             </div>
