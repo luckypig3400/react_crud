@@ -13,7 +13,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <h1>Nav</h1>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddUser />} />
