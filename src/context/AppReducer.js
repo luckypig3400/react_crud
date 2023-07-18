@@ -10,6 +10,20 @@ const AppReducer = (state, action) => {
       return {
         users: [action.payload, ...state.users],
       };
+    case "EDIT_USER":
+      const updateUser = action.payload; // 選定的user
+
+      // 更新後的所有 user
+      const updatedUsers = state.users.map((user) => {
+        if (user.id === updateUser.id) {
+          return updateUser;
+        }
+        return user;
+      })
+
+      return {
+        users: updatedUsers,
+      }
     default:
       return state;
   }
