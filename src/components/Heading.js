@@ -6,8 +6,8 @@ function Heading() {
   return (
     <Navbar color='dark' dark>
       <Container>
-        <NavbarBrand href='/'>Kiwi Team</NavbarBrand>
         <Nav>
+          <NavbarBrand href='/'>Kiwi Team</NavbarBrand>
           <NavItem>
             <Link className='btn btn-primary' to="/add">
               Add User
