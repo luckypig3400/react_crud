@@ -27,7 +27,7 @@ function UserList() {
                   style={{ marginLeft: "10px" }}
                   onClick={() => removeUser(user.id)}
                 >
-                  Delect
+                  Delete
                 </Button>
               </div>
             </ListGroupItem>
