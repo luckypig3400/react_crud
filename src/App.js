@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Home from './components/Home';
 import AddUser from './components/AddUser';
 import EditUser from './components/EditUser';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, HashRouter, Routes, Route } from 'react-router-dom';
 import { GloabalProvider } from './context/GlobalState';
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -14,13 +14,13 @@ function App() {
   return (
     <div style={{ maxWidth: "30rem", margin: "4rem auto", marginTop: "0rem" }}>
       <GloabalProvider>
-        <Router>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/add" element={<AddUser />} />
             <Route path="/edit/:id" element={<EditUser />} />
           </Routes>
-        </Router>
+        </HashRouter>
       </GloabalProvider>
     </div>
   );
